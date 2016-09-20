@@ -1,6 +1,7 @@
 import java.util.Map;
 import java.util.HashMap;
-
+import java.util.List;
+import java.util.ArrayList;
 import spark.ModelAndView;
 import spark.template.velocity.VelocityTemplateEngine;
 import static spark.Spark.*;
@@ -12,16 +13,18 @@ public class App {
 
     get("/", (request, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();
+      model.put("specialties", Specialty.all());
       model.put("template", "templates/index.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    get("/result", (request, response) -> {
+    post("/", (request, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();
-      model.put("result", request.queryParams("item1"));
-      model.put("template", "templates/result.vtl");
+      Specialty specialty = new Specialty(request.queryParams("specialty"));
+      specialty.save();
+      model.put("specialties", Specialty.all());
+      model.put("template", "templates/index.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
-
   }
 }
