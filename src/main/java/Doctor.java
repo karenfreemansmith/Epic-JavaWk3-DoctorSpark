@@ -1,19 +1,65 @@
+import org.sql2o.*;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Doctor {
+  private String name;
+  private int id;
+  private int specialtyId;
 
-  // public static List<Task> all() {
-  //   String sql = "SELECT id, description FROM tasks";
-  //   try(Connection con = DB.sql2o.open()) {
-  //     return con.createQuery(sql).executeAndFetch(Task.class);
-  //   }
-  // }
+  public Doctor(String name, int sId) {
+    this.name = name;
+    this.specialtyId = sId;
+  }
 
-  // @Override
-  // public boolean equals(Object otherTask) {
-  //   if (!(otherTask instanceof Task)) {
-  //     return false;
-  //   } else {
-  //     Task newTask = (Task) otherTask;
-  //     return this.getDescription().equals(newTask.getDescription());
-  //   }
-  // }
+  public String getName() {
+    return name;
+  }
+
+  public int getSpecialtyId() {
+    return specialtyId;
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public void save() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "INSERT INTO doctors (name, specialtyId) VALUES (:name, :specialtyId)";
+      this.id = (int) con.createQuery(sql, true)
+        .addParameter("name", this.name)
+        .addParameter("specialtyId", this.specialtyId)
+        .executeUpdate()
+        .getKey();
+    }
+  }
+
+  @Override
+  public boolean equals(Object otherDoctor) {
+    if(!(otherDoctor instanceof Doctor)) {
+      return false;
+    } else {
+      Doctor newDoctor = (Doctor) otherDoctor;
+      return this.getName().equals(newDoctor.getName());
+    }
+  }
+
+  public static List<Doctor> all() {
+    String sql = "SELECT * FROM doctors";
+    try(Connection con = DB.sql2o.open()) {
+      return con.createQuery(sql).executeAndFetch(Doctor.class);
+    }
+  }
+
+  public static Doctor find(int id) {
+    String sql = "SELECT * FROM doctors WHERE id=:id";
+    try(Connection con = DB.sql2o.open()) {
+       Doctor doctor = con.createQuery(sql)
+       .addParameter("id", id)
+       .executeAndFetchFirst(Doctor.class);
+       return doctor;
+    }
+  }
+
 }
