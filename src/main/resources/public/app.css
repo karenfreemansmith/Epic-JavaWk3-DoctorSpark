@@ -1,0 +1,15 @@
+body {
+  background: #f9f4ed;
+  color: #263347;
+  background-image: url("/images/doctors.png");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: bottom right; 
+}
+h1, h2, h3 {
+  font-family: 'Arima Madurai', cursive;
+}
+h1 {
+  font-size: 5em;
+  line-height: 2;
+}

@@ -26,7 +26,7 @@ public class Doctor {
 
   public void save() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO doctors (name, specialtyId) VALUES (:name, :specialtyId)";
+      String sql = "INSERT INTO doctors (name, specialty_id) VALUES (:name, :specialtyId)";
       this.id = (int) con.createQuery(sql, true)
         .addParameter("name", this.name)
         .addParameter("specialtyId", this.specialtyId)
@@ -48,7 +48,9 @@ public class Doctor {
   public static List<Doctor> all() {
     String sql = "SELECT * FROM doctors";
     try(Connection con = DB.sql2o.open()) {
-      return con.createQuery(sql).executeAndFetch(Doctor.class);
+      return con.createQuery(sql)
+        .addColumnMapping("specialty_id", "specialtyId")
+        .executeAndFetch(Doctor.class);
     }
   }
 
@@ -57,6 +59,7 @@ public class Doctor {
     try(Connection con = DB.sql2o.open()) {
        Doctor doctor = con.createQuery(sql)
        .addParameter("id", id)
+       .addColumnMapping("specialty_id", "specialtyId")
        .executeAndFetchFirst(Doctor.class);
        return doctor;
     }

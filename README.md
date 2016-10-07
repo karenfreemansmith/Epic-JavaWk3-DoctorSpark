@@ -1,7 +1,9 @@
 # Doctor's Office
-Version 0.0.0: September 20, 2016
+Version 0.0.0: October 7, 2016
 
 by [Karen Freeman-Smith](https://github.com/karenfreemansmith) and [Sara Jensen](https://github.com/thejensen)
+
+![screenshot](screenshot.png)
 
 ## Description
 A program to manage a doctor's Office
