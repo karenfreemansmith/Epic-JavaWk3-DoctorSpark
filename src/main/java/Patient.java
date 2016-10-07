@@ -49,7 +49,8 @@ public class Patient {
     } else {
       Patient newPatient = (Patient) otherPatient;
       return this.id==newPatient.getId() &&
-             this.name.equals(newPatient.getName());
+             this.name.equals(newPatient.getName()) &&
+             this.birthday.equals(newPatient.getBirthday());
     }
   }
 
@@ -63,7 +64,7 @@ public class Patient {
   }
 
   public static Patient find(int id) {
-    String sql = "SELECT * FROM patient WHERE id=:id";
+    String sql = "SELECT * FROM patients WHERE id=:id";
     try(Connection con = DB.sql2o.open()) {
        Patient patient = con.createQuery(sql)
        .addParameter("id", id)
